@@ -1,0 +1,17 @@
+.header{
+    display: flex;
+    background-color: blue;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    justify-content: center;
+}
+
+.search-form{
+    position: fixed;
+    font-size: 20px;
+    width: auto;
+}
+
+.search-form__input{
+    border-radius: 5px;
+}
