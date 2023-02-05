@@ -1,13 +1,14 @@
 .header{
+    position: fixed;
     display: flex;
-    background-color: blue;
+    background-color: #1f58ad;
     padding-top: 30px;
     padding-bottom: 30px;
     justify-content: center;
+    width: 100%;
 }
 
 .search-form{
-    position: fixed;
     font-size: 20px;
     width: auto;
 }

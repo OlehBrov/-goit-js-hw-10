@@ -1,0 +1,13 @@
+    .gallery{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 90px;
+    }
+
+    .photo-card{
+        width: 300px;
+        border: 2px solid black;
+        border-radius: 3px;
+    }
