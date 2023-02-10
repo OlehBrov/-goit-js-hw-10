@@ -10,13 +10,14 @@ let throttle = require('lodash.throttle');
 const searchForm = document.querySelector('#search-form');
 const submitBtn = document.querySelector('button');
 const gallery = document.querySelector('.gallery');
-const endListMsg = document.querySelector('.end-list-msg')
-
+const endListMsg = document.querySelector('.end-list-msg');
 
 submitBtn.addEventListener('click', submitSearch);
 searchForm.addEventListener('input', inputHandler);
 gallery.addEventListener('click', gallerySlider);
 window.addEventListener('scroll', throttle(loadMoreResults, 1000));
+
+let markupLoad = true;
 
 function inputHandler(e) {
   SearchImagesAPI.searchQuery = e.target.value;
@@ -24,15 +25,16 @@ function inputHandler(e) {
 
 async function submitSearch(e) {
   e.preventDefault();
-    gallery.innerHTML = '';
-    endListMsg.classList.add('js-endlist')
+  gallery.innerHTML = '';
+  endListMsg.classList.add('js-endlist');
   SearchImagesAPI.resetPage();
   SearchImagesAPI.getImages().then(markup => {
-      pageMarkup(markup)
-  })
+    pageMarkup(markup);
+  });
 }
 
 function pageMarkup(dataArray) {
+  markupLoad = false;
   const galleryMarkup = dataArray
     .map(
       element =>
@@ -58,7 +60,7 @@ function pageMarkup(dataArray) {
 </div>`
     )
     .join('');
-
+  markupLoad = true;
   return gallery.insertAdjacentHTML('beforeend', galleryMarkup);
 }
 
@@ -69,22 +71,24 @@ function gallerySlider(event) {
     captions: true,
     captionsData: 'alt',
     captionDelay: 250,
+    loop: false,
   });
   gallery.refresh();
 }
 
 function loadMoreResults(e) {
-    const documentRect = document.documentElement.getBoundingClientRect();
-    if (documentRect.bottom < document.documentElement.clientHeight + 250) {
-        SearchImagesAPI.getImages().then(markup => {
-    pageMarkup(markup);
-        }).catch(error => {
-            SearchImagesAPI.notificationEnd();
-            endListMsg.classList.remove('js-endlist')
-
-        })
-    }
+  const documentRect = document.documentElement.getBoundingClientRect();
+  if (
+    documentRect.bottom < document.documentElement.clientHeight + 250 &&
+    markupLoad
+  ) {
+    SearchImagesAPI.getImages()
+      .then(markup => {
+        pageMarkup(markup);
+      })
+      .catch(error => {
+        SearchImagesAPI.notificationEnd();
+        endListMsg.classList.remove('js-endlist');
+      });
+  }
 }
-
-
-

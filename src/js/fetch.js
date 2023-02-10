@@ -34,7 +34,7 @@ export default class SearchImages {
     this.searchQuery = '';
     this.page = 1;
     this.collection = 1;
-    this.imgsPerPage = 200;
+    this.imgsPerPage = 99;
     this.totalLoaded = 0;
   }
   getImages() {
