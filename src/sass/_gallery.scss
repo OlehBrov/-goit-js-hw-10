@@ -7,20 +7,15 @@
     }
 
     .photo-card{
+        display: flex;
+        flex-direction: column;
+            
         width: calc((100% - 45px) / 4);
-        // border: 2px solid black;
         border-radius: 3px;
         box-shadow: 1px 0px 64px -12px rgba(0, 0, 0, 0.75);
         background-color: white;
-        transition: scale 500ms linear,
-            transform 500ms ease-in-out;
 
-        &:hover{
-            transform: scale(1.05);
-            .info{
-                padding: 20px;
-            }
-        }
+        
     }
 
     img{
@@ -31,6 +26,11 @@
         
             display: block;
             margin: 0 auto;
+            transition: transform 500ms ease-in-out;
+
+            &:hover{
+                transform: scale(1.1);
+            }
     }
 
     .info{
@@ -38,8 +38,7 @@
         display: flex;
        justify-content: space-between;
         gap: 15px;
-        transition: padding 500ms linear,
-                transform 500ms ease-in-out;
+        
     }
 
     .info-item{
@@ -51,4 +50,20 @@
 
     b{
         margin-bottom: 7px;
+    }
+
+    .load-more{
+        width: 140px;
+        height: 80px;
+    }
+
+    .end-list-msg{
+        font-size: 32px;
+        color: black;
+        text-align: center;
+       
+    }
+
+    .js-endlist {
+visibility: hidden;
     }
