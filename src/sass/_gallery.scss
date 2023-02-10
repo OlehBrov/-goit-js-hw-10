@@ -3,11 +3,52 @@
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
-    padding-top: 90px;
+    padding-top: 100px;
     }
 
     .photo-card{
-        width: 300px;
-        border: 2px solid black;
+        width: calc((100% - 45px) / 4);
+        // border: 2px solid black;
         border-radius: 3px;
+        box-shadow: 1px 0px 64px -12px rgba(0, 0, 0, 0.75);
+        background-color: white;
+        transition: scale 500ms linear,
+            transform 500ms ease-in-out;
+
+        &:hover{
+            transform: scale(1.05);
+            .info{
+                padding: 20px;
+            }
+        }
+    }
+
+    img{
+        /* This is where magic happens */
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+        
+            display: block;
+            margin: 0 auto;
+    }
+
+    .info{
+      padding: 15px;
+        display: flex;
+       justify-content: space-between;
+        gap: 15px;
+        transition: padding 500ms linear,
+                transform 500ms ease-in-out;
+    }
+
+    .info-item{
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    b{
+        margin-bottom: 7px;
     }

@@ -7,7 +7,14 @@ const API_KEY = '33350252-53a75f568ce69e642e03bf7bf';
  function getImages(query) {
   try {
     return axios
-      .get(`${BASE_URL}?key=${API_KEY}&q=${query}`)
+      .get(`${BASE_URL}?key=${API_KEY}&q=${query}`, {
+        params: {
+          image_type: 'photo',
+          orientation: 'horizontal',
+          safesearch: true,
+          per_page: 40,
+        }
+      })
        .then(response => {
         console.log(response.data.hits)
         return response.data.hits;
@@ -17,4 +24,3 @@ const API_KEY = '33350252-53a75f568ce69e642e03bf7bf';
   }
 }
 
-// getImages('cat')

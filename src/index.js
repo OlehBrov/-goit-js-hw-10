@@ -1,6 +1,7 @@
 import { getImages }  from './js/fetch'
 import SimpleLightbox from "simplelightbox";
 import "../node_modules/simplelightbox/dist/simple-lightbox.min.css";
+import Notiflix from 'notiflix';
 
 
 const searchForm = document.querySelector("#search-form")
@@ -19,8 +20,13 @@ function inputHandler(e) {
 }
 
  async function queryInputHandler(e) {
-    e.preventDefault();
+     e.preventDefault();
+     gallery.innerHTML = "";
      const markup = await getImages(searchQuery);
+     if (markup.length < 1) {
+         Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
+         return;
+     }
      pageMarkup(markup)
 
 }
@@ -28,19 +34,19 @@ function inputHandler(e) {
 function pageMarkup(dataArray) {
      const galleryMarkup =  dataArray.map((element) => 
 `<div class="photo-card">
-  <img src="${element.previewURL}" alt="${element.tags}" loading="lazy" />
+  <img src="${element.webformatURL}" alt="${element.tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>${element.likes}Likes</b>
+      <b>Likes</b>${element.likes.toLocaleString('uk-UA')}
     </p>
     <p class="info-item">
-      <b>${element.views}Views</b>
+      <b>Views</b>${element.views.toLocaleString('uk-UA')}
     </p>
     <p class="info-item">
-      <b>${element.comments}Comments</b>
+      <b>Comments</b>${element.comments.toLocaleString('uk-UA')}
     </p>
     <p class="info-item">
-      <b>${element.downloads}Downloads</b>
+      <b>Downloads</b>${element.downloads.toLocaleString('uk-UA')}
     </p>
   </div>
 </div>`)  
