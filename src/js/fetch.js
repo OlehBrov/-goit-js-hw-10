@@ -34,10 +34,22 @@ export default class SearchImages {
     this.searchQuery = '';
     this.page = 1;
     this.collection = 1;
-    this.imgsPerPage = 99;
+    this.imgsPerPage = 150;
     this.totalLoaded = 0;
+    this.preventFetch = false;
   }
   getImages() {
+    axios.interceptors.response.use(
+      res => {
+        console.log('RES in first part', res);
+        return res;
+      },
+      res => {
+        console.log('RES in second part', res);
+        this.preventFetch = true;
+        throw res;
+      }
+    );
     console.log(this);
     try {
       return axios
@@ -48,11 +60,13 @@ export default class SearchImages {
             safesearch: true,
             per_page: this.imgsPerPage,
             page: this.page,
+            validateStatus: status => {
+              return status >= 200 && status < 300;
+            },
           },
         })
         .then(response => {
-          console.log(response)
-          if (response.data.hits.length < 1) {
+            if (response.data.hits.length < 1) {
             Notiflix.Notify.warning(
               'Sorry, there are no images matching your search query. Please try again.'
             );
@@ -65,22 +79,20 @@ export default class SearchImages {
           return response.data.hits;
         });
     } catch (error) {
-      if (error.response) {
-        console.log(error.response.data)
-      }
+      console.log('ERROR in catch');
     }
+
+    return this.notificationEnd();
   }
   resetPage() {
     this.page = 1;
   }
   notification() {
     Notiflix.Notify.success(
-      `Loaded ${this.totalLoaded} images of total ${
-        this.collection
-      }`
+      `Loaded ${this.totalLoaded} images of total ${this.collection}`
     );
   }
   notificationEnd() {
-    Notiflix.Notify.warning("No more images to load")
+    Notiflix.Notify.warning('No more images to load');
   }
 }

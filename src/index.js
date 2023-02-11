@@ -28,6 +28,8 @@ async function submitSearch(e) {
   gallery.innerHTML = '';
   endListMsg.classList.add('js-endlist');
   SearchImagesAPI.resetPage();
+  SearchImagesAPI.totalLoaded = 0;
+  SearchImagesAPI.preventFetch = false;
   SearchImagesAPI.getImages().then(markup => {
     pageMarkup(markup);
   });
@@ -82,13 +84,15 @@ function loadMoreResults(e) {
     documentRect.bottom < document.documentElement.clientHeight + 250 &&
     markupLoad
   ) {
-    SearchImagesAPI.getImages()
-      .then(markup => {
-        pageMarkup(markup);
-      })
-      .catch(error => {
-        SearchImagesAPI.notificationEnd();
-        endListMsg.classList.remove('js-endlist');
-      });
+    if (SearchImagesAPI.preventFetch === false) {
+      SearchImagesAPI.getImages()
+        .then(markup => {
+          pageMarkup(markup);
+        })
+        .catch(error => {
+          SearchImagesAPI.notificationEnd();
+          endListMsg.classList.remove('js-endlist');
+        });
+    }
   }
 }
