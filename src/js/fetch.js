@@ -39,6 +39,7 @@ export default class SearchImages {
     this.preventFetch = false;
   }
   getImages() {
+    console.log('this search-query', this.searchQuery)
     axios.interceptors.response.use(
       res => {
         console.log('RES in first part', res);
@@ -86,6 +87,10 @@ export default class SearchImages {
   }
   resetPage() {
     this.page = 1;
+  }
+
+  get query() {
+    return this.searchQuery;
   }
   notification() {
     Notiflix.Notify.success(

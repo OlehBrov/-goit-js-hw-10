@@ -20,11 +20,14 @@ window.addEventListener('scroll', throttle(loadMoreResults, 1000));
 let markupLoad = true;
 
 function inputHandler(e) {
-  SearchImagesAPI.searchQuery = e.target.value;
+  SearchImagesAPI.searchQuery = e.target.value.trim();
 }
 
 async function submitSearch(e) {
   e.preventDefault();
+  if (SearchImagesAPI.searchQuery === '') {
+    return Notiflix.Notify.info("Введіть запит, поле пошуку не має бути порожнім!");
+  }
   gallery.innerHTML = '';
   endListMsg.classList.add('js-endlist');
   SearchImagesAPI.resetPage();
